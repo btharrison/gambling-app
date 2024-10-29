@@ -4,7 +4,6 @@ import React, { useState, useEffect, useCallback } from 'react'; // Import React
 
 import '../styles/Blackjack.css'; // Import CSS styles
 
-  
 const Blackjack = () => {
     // State variables to manage deck, hands, game status, and player turn
     const [deck, setDeck] = useState([]); // Current deck of cards
@@ -13,7 +12,48 @@ const Blackjack = () => {
     const [gameStatus, setGameStatus] = useState('ongoing'); // Tracks game outcome: 'win', 'lose', 'bust', etc.
     const [playerTurn, setPlayerTurn] = useState(true); // Boolean for player's turn
     const [gameStarted, setGameStarted] = useState(false); // Track if game is started
+    //const [probability, setProbability] = useState(null);
 
+    // const cardValueFunc = useCallback((currentCard) => {
+    //     let value = 0
+    //         if(currentCard.value === 'A')
+    //         {
+    //             value += 11;                        // Adding 11, to main count. If player busts on 11, then 
+    //         }
+    //         else if ((currentCard.value === 'J') || (currentCard.value === 'Q') || (currentCard.value === 'K')){
+    //             value += 10;                        // Adding value of face card
+    //         }  
+    //         else
+    //         {
+    //             value += parseInt(currentCard.value);      // converting string to int, to add value of numbered card
+    //         }
+    //         return value;
+    // }, []);
+
+    // const totalWinningCards = useCallback((currentCards, playerCount) =>  {
+    //     let cardCount = 0;
+    //     for(let card of currentCards) {
+    //         let cardNum = cardValueFunc(card);
+    //         if((playerCount + cardNum) <= 21)
+    //         {
+    //             cardCount++;
+    //         }
+    //     }
+    //     return cardCount;
+    // }, [cardValueFunc]);
+
+    // const calculateOdds = useCallback(() => {
+    //     //const currentPlayer = playerHand;
+    //     //const dealerShown = [dealerHand[0]];  // grabbing the hidden card to put back in temp deck
+    //     let currentCards = [...deck, dealerHand[1]];
+    //     const playerCount = calculateHand(playerHand);
+    //     let numCards = totalWinningCards(currentCards, playerCount);
+
+    //     let probablity = numCards / currentCards.length;            // Perecentage for player to hit <= 21
+
+    //     setProbability(probablity);
+    // }, [deck, dealerHand, playerHand, totalWinningCards]);
+    
     // Function to start a new round with a fresh deck if necessary
     const startNewRound = useCallback((currentDeck) => {
         // Check if deck has enough cards; if not, shuffle a new deck
@@ -36,9 +76,6 @@ const Blackjack = () => {
         setPlayerHand(newPlayerHand); // Set player's hand state
         setDealerHand(newDealerHand); // Set dealer's hand state
     }, []);
-
-
-
 
     // Function to start a new game when the "Start Game" button is pressed
     const startNewGame = useCallback(() => {
@@ -70,6 +107,9 @@ const Blackjack = () => {
             if(currentValue > 21) {                                     // If player busts, end game
                 setGameStatus('bust');                                  // set status to bust
                 setPlayerTurn(false);                                   // end player's turn
+            }
+            else {
+                //calculateOdds();
             }
         }
     };
@@ -116,11 +156,12 @@ const Blackjack = () => {
             setDeck([]); // Clear deck
             setPlayerHand([]); // Clear player hand
             setDealerHand([]); // Clear dealer hand
-            setGameStatus('wait'); // Reset game status
+            setGameStatus('ongoing'); // Reset game status, DO NOT CHANGE, changed to wait, and made loading after start game spasm 
             setPlayerTurn(true); // Reset player turn
-
         } else {
             // Start a new round
+            setGameStatus('ongoing');
+            setPlayerTurn(false)
             setPlayerHand([]); // Clear player hand
             setDealerHand([]); // Clear dealer hand
             startNewRound(deck); // Start a new round with current deck
@@ -140,12 +181,6 @@ const Blackjack = () => {
             <div className="game-board">
                 {/* Game title */}
                 <h1 className="title">Blackjack</h1>
-                {/* {!gameStarted ? (
-                    // Display start game button if game hasn't started yet
-                    <button onClick={handleStartGame} className="start-game-button">
-                        Start Game
-                    </button>
-                ) : ( */}
                     <div className="dealer-container">
                         <div className="dealer-table">
                             {/* Dealer's hand section */}
@@ -180,41 +215,14 @@ const Blackjack = () => {
                                 </div>
                             { gameStarted !== false && (
                                 <>
-                                <h2 className="subtitle">Dealer: 
+                                <h2 className="subtitle">Dealer: {" "}
                                     {!playerTurn ? (
                                         calculateHand(dealerHand)       // If its dealer turn, show running count
                                     ) : (
-                                        <></>
                                         // Add something that gets the first card of the dealer hand
-                                    )}</h2>
-                                {/* <div className="mainDeck">
-                                    <div className="card1"><img
-                                        src={'/Images/cards/hidden.png'}
-                                        alt=''
-                                        className="card-image"
-                                    /></div>
-                                    <div className="card2">
-                                        <img
-                                            src={'/Images/cards/hidden.png'}
-                                            alt=''
-                                            className="card-image"
-                                        />
-                                    </div>
-                                    <div className="card3">
-                                        <img
-                                            src={'/Images/cards/hidden.png'}
-                                            alt=''
-                                            className="card-image"
-                                        />
-                                    </div>
-                                    <div className="card4">
-                                        <img
-                                            src={'/Images/cards/hidden.png'}
-                                            alt=''
-                                            className="card-image"
-                                        />
-                                    </div>
-                                </div> */}
+                                        dealerHand[0] ? calculateHand([dealerHand[0]]) : '' 
+                                    )}
+                                </h2>
                                 <div className="hand-text dealer-hand">
                                     {dealerHand.map((card, index) => 
                                         // Show dealer's first card or all cards if player's turn has ended
@@ -261,16 +269,22 @@ const Blackjack = () => {
                                 )}
                             </div>
                             {/* Deck card count display */}
-                            <div className="cardCount">
+                            {gameStarted && (
+                                <div className="cardCount">
                                 <label>
                                     {deck.length}
                                 </label>
-                            </div>
+                                </div>
+                            )}  
                         </div>
                     </div>
                     
             </div>
-
+                {/* {probability !== null && (
+                    <div>
+                        <h2>Current Probability: { probability}%</h2>
+                    </div>
+                )} */}
             {/* Action buttons - Hit and Stand */}
             { gameStatus === 'ongoing' && playerTurn && gameStarted ? (
                 <div className="button-group">
