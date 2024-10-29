@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react'; // Import React
 
 import '../styles/Blackjack.css'; // Import CSS styles
 
+  
 const Blackjack = () => {
     // State variables to manage deck, hands, game status, and player turn
     const [deck, setDeck] = useState([]); // Current deck of cards
@@ -36,9 +37,6 @@ const Blackjack = () => {
         setDealerHand(newDealerHand); // Set dealer's hand state
     }, []);
 
-    const dealCards = useCallback(() => {
-
-    })
 
 
 
@@ -52,26 +50,26 @@ const Blackjack = () => {
         startNewRound(newDeck); // Initialize a new round
     }, [startNewRound]);
 
-    // Effect to trigger the game start when gameStarted changes to true
+    // Effect to triggers the game start when gameStarted changes to true
     useEffect(() => {
-            if (gameStarted !== true){
+            if (gameStarted !== false){
                 startNewGame(); // Call startNewGame if game is started
             }
-    }, [startNewGame]);
+    }, [gameStarted, startNewGame]);                    // ERROR BECAUSE I DID NOT HAVE GAME START HERE, DONT REMOVE IF USING
 
-    // Function for when the player chooses to "Hit" (take another card)
+    // Function for when the player chooses to Hit
     const hit = () => {
         if(playerTurn && gameStatus === 'ongoing'){
-            const newDeck = [...deck]; // Clone deck to avoid mutation
-            const dealtCard = newDeck.pop(); // Take the top card
-            const updatedPlayerHand = [...playerHand, dealtCard];
-            setPlayerHand(updatedPlayerHand); // Update player hand state
-            setDeck(newDeck); // Update deck state
+            const newDeck = [...deck];                                  // Clone deck to avoid potential problems
+            const dealtCard = newDeck.pop();                            // Pop the top card off, and use for deal
+            const updatedPlayerHand = [...playerHand, dealtCard];       // Append the new card to the playerHand Array
+            setPlayerHand(updatedPlayerHand);                           // Update player hand state
+            setDeck(newDeck);                                           // Update deck state
 
-            const currentValue = calculateHand(updatedPlayerHand); // Calculate new hand value
-            if(currentValue > 21) { // If player busts, end game
-                setGameStatus('bust');
-                setPlayerTurn(false);
+            const currentValue = calculateHand(updatedPlayerHand);      // Calculate new hand value
+            if(currentValue > 21) {                                     // If player busts, end game
+                setGameStatus('bust');                                  // set status to bust
+                setPlayerTurn(false);                                   // end player's turn
             }
         }
     };
@@ -114,9 +112,12 @@ const Blackjack = () => {
         if (leave) {
             //setGameStarted(false); // End the game if leaving
             // CHANGE THIS CODE< THE LOGIC IS NOT GOOD RIGHT NOW
-            setGameStarted(false)
+            setGameStarted(false);
+            setDeck([]); // Clear deck
             setPlayerHand([]); // Clear player hand
             setDealerHand([]); // Clear dealer hand
+            setGameStatus('wait'); // Reset game status
+            setPlayerTurn(true); // Reset player turn
 
         } else {
             // Start a new round
@@ -124,11 +125,11 @@ const Blackjack = () => {
             setDealerHand([]); // Clear dealer hand
             startNewRound(deck); // Start a new round with current deck
         }
-        setGameStatus('ongoing'); // Reset game status
-        setPlayerTurn(true); // Reset player turn
+        // setGameStatus('ongoing'); // Reset game status
+        // setPlayerTurn(true); // Reset player turn        Moved into if statement 
     };   
 
-    // Function to handle the initial game start
+    //Function Might use to handle once betting is implemented
     // const handleStartGame = () => {
     //     setGameStarted(true); // Set gameStarted to true to start the game
     // };
@@ -145,15 +146,11 @@ const Blackjack = () => {
                         Start Game
                     </button>
                 ) : ( */}
-                    // Display game content once the game has started
                     <div className="dealer-container">
                         <div className="dealer-table">
                             {/* Dealer's hand section */}
                             <div className="dealer-area">
-                            { gameStarted !== false && (
-                                <>
-                                <h2 className="subtitle">Dealer: {!playerTurn ? calculateHand(dealerHand) : ''}</h2>
-                                <div className="mainDeck">
+                            <div className="mainDeck">
                                     <div className="card1"><img
                                         src={'/Images/cards/hidden.png'}
                                         alt=''
@@ -181,6 +178,43 @@ const Blackjack = () => {
                                         />
                                     </div>
                                 </div>
+                            { gameStarted !== false && (
+                                <>
+                                <h2 className="subtitle">Dealer: 
+                                    {!playerTurn ? (
+                                        calculateHand(dealerHand)       // If its dealer turn, show running count
+                                    ) : (
+                                        <></>
+                                        // Add something that gets the first card of the dealer hand
+                                    )}</h2>
+                                {/* <div className="mainDeck">
+                                    <div className="card1"><img
+                                        src={'/Images/cards/hidden.png'}
+                                        alt=''
+                                        className="card-image"
+                                    /></div>
+                                    <div className="card2">
+                                        <img
+                                            src={'/Images/cards/hidden.png'}
+                                            alt=''
+                                            className="card-image"
+                                        />
+                                    </div>
+                                    <div className="card3">
+                                        <img
+                                            src={'/Images/cards/hidden.png'}
+                                            alt=''
+                                            className="card-image"
+                                        />
+                                    </div>
+                                    <div className="card4">
+                                        <img
+                                            src={'/Images/cards/hidden.png'}
+                                            alt=''
+                                            className="card-image"
+                                        />
+                                    </div>
+                                </div> */}
                                 <div className="hand-text dealer-hand">
                                     {dealerHand.map((card, index) => 
                                         // Show dealer's first card or all cards if player's turn has ended
