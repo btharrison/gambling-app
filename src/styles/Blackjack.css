@@ -1,0 +1,139 @@
+body {
+    background-color: #1c3f3f; /* Dark background for contrast */
+    color: #fff; /* White text for readability */
+    font-family: 'Arial', sans-serif; /* Font styling */
+}
+
+/* Example Navbar CSS (you can adjust this according to your existing styles) */
+.navbar {
+    background-color: #007a33; /* Color for your nav bar */
+    padding: 10px; /* Padding for the navbar */
+    text-align: center; /* Center align text in navbar */
+    position: relative; /* Position relative for any absolute children */
+}
+
+/* Dealer Table Styles */
+.dealer-table {
+    width: 60%; /* Width of the table */
+    margin: -79px auto 20px auto; /* Negative margin to pull it up, center it, and add space below */
+    height: 500px;
+    padding: 0px; /* Inner spacing */
+    background-color: #007a33; /* Green felt color */
+    background-image: url("/public/Images/dealerTableBackground\(1\).png");
+    background-position-x: center;
+    background-position-y: 20px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 50px solid #333333;
+    border-top: none;
+    border-radius: 0 0 200px 200px; /* Rounded corners to create a semi-circle */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Shadow effect */
+    display: flex; /* Use flexbox to arrange dealer and player sections */
+    flex-direction: column; /* Stack dealer and player areas vertically */
+    overflow: hidden; /* Hide overflow to maintain the semi-circle shape */
+    position: relative; /* Position relative for absolute children */
+    z-index: 9;
+    top: -19px;
+}
+
+.cardCount{
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    z-index: 10;
+}
+
+.dealer-area, .player-area {
+    text-align: center; /* Center align text in both areas */
+    margin-bottom: 140px; /* Space between dealer and player areas */
+}
+
+.mainDeck {
+    position: absolute;
+    left: 160px;
+    top: 165px;
+}
+
+.card2 {
+    position: absolute;
+    left: 4px;
+    top: -1px;
+}
+.card3 {
+    position: absolute;
+    left: 8px;
+    top:-2px
+}
+.card4 {
+    position: absolute;
+    left: 12px;
+    top:-3px
+}
+.bj-text{
+    color: rgb(116, 0, 0);
+    font-weight: bold;
+}
+.dealer-text {
+    color: rgb(210, 210, 77);
+    font-weight: bold;
+}
+
+.dealerVal{
+    padding: 100px;
+}
+
+.subtitle {
+    font-size: 1.5em; /* Subtitle size */
+    margin: 0px;
+}
+
+.hand-text {
+    display: flex; /* Flexbox layout for hands */
+    justify-content: center; /* Center align cards */
+    align-items: center; /* Align items to the center */
+    margin: 10px 0; /* Margin around hands */
+}
+
+.card-image {
+    max-width: 75px; /* Maximum width for cards */
+    max-height: 105px; /* Maximum height for cards */
+    margin-left: -50px; /* Space between cards */
+}
+
+.card-image:hover {
+    transform: translateY(-5px) scale(1); /* Moves the card up slightly and enlarges it */
+    transition: transform 0.3s ease-in-out;  /* Smooth transition */
+}
+
+.button-group {
+    text-align: center; /* Center buttons */
+    margin-top: 20px; /* Space above buttons */
+}
+
+.action-button {
+    padding: 10px 20px; /* Inner spacing for buttons */
+    background-color: #005622; /* Darker green for buttons */
+    color: #fff; /* White text */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded edges */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth color transition */
+}
+
+.action-button:hover {
+    background-color: #007a33; /* Change color on hover */
+}
+
+.end-game-display {
+    text-align: center; /* Center text in end game display */
+}
+
+.game-status {
+    font-size: 2em; /* Larger font for game status */
+    margin-bottom: 10px; /* Space below status */
+}
+
+.new-round-button, .leave-game-button {
+    padding: 10px 20px; /* Inner spacing for buttons */
+    margin: 0 10px; /* Space between buttons */
+}
