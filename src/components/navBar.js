@@ -3,16 +3,27 @@ import { Link, useMatch, useResolvedPath } from 'react-router-dom';
 
 export default function NavBar() {
     return (
-        <nav className="nav">
-            <Link to="/" className="site-title">
-                Gambling App
-            </Link>
-            <ul>
-                <CustomLink to="/Home">Home</CustomLink>
-                <CustomLink to="/Blackjack">Blackjack</CustomLink>
-                <CustomLink to="/Account">Account</CustomLink>
+        <header>
+            <a className="logo" href="/">
+                <img src="/loko.png" alt="logo" style={{ marginTop: "5px", width: "125px", height: "25px", marginLeft: "10px" }} />
+            </a>
+            <nav className="nav">
+                <ul className="nav__links">
+                    <li>
+                        <CustomLink to="/Blackjack">Blackjack</CustomLink> {/* Active, allows for the highlight feature */}
+                    </li>
+                    <li>
+                        <CustomLink to="/OtherPage">Other Page</CustomLink>
+                    </li>
+                </ul>
+            </nav>
+            <ul className="accountStuff">
+                <li>
+                    <CustomLink to="/Account" >Account</CustomLink>
+                </li>
             </ul>
-        </nav>
+        </header>
+
     );
 }
 

@@ -15,11 +15,11 @@ body {
 /* Dealer Table Styles */
 .dealer-table {
     width: 60%; /* Width of the table */
-    margin: -79px auto 20px auto; /* Negative margin to pull it up, center it, and add space below */
+    margin: 1px auto 20px auto; /* Negative margin to pull it up, center it, and add space below */
     height: 500px;
     padding: 0px; /* Inner spacing */
     background-color: #007a33; /* Green felt color */
-    background-image: url("/public/Images/dealerTableBackground\(1\).png");
+    background-image: url("/public/Images/tableBackgroundd.png");
     background-position-x: center;
     background-position-y: 20px;
     background-repeat: no-repeat;
@@ -45,7 +45,7 @@ body {
 
 .dealer-area, .player-area {
     text-align: center; /* Center align text in both areas */
-    margin-bottom: 140px; /* Space between dealer and player areas */
+    margin-bottom: 130px; /* Space between dealer and player areas */
 }
 
 .mainDeck {
@@ -85,6 +85,14 @@ body {
 .subtitle {
     font-size: 1.5em; /* Subtitle size */
     margin: 0px;
+    
+}
+.dealerSubtitle {
+    font-size: 1.5em; /* Subtitle size */
+    margin: 0px;
+    position: absolute;
+    left: 380px;
+    top: 120px;
 }
 
 .hand-text {
@@ -92,12 +100,99 @@ body {
     justify-content: center; /* Center align cards */
     align-items: center; /* Align items to the center */
     margin: 10px 0; /* Margin around hands */
+    
+}
+
+.chipBet {
+    position: absolute;
+    top: 35px;
+    left: -35px;
+    width: 40px;
+    height: 30px;
+
 }
 
 .card-image {
     max-width: 75px; /* Maximum width for cards */
     max-height: 105px; /* Maximum height for cards */
     margin-left: -50px; /* Space between cards */
+}
+
+.chip-image {
+    position: relative;
+    max-width: 75px; /* Maximum width for cards */
+    max-height: 105px; /* Maximum height for cards */
+    margin-left: -50px; /* Space between cards */
+}
+.chip-image: {
+
+}
+
+.betArea {
+    position: absolute;
+    z-index: 10;
+    left: 850px;
+    top: 500px;
+}
+.deal-button {
+    position: absolute;
+    width: 70px;
+    top: 10px;
+}
+.clearButton {
+    position: absolute;
+    width: 70px;
+    top: -10px;
+}
+.maxButton {
+    position: absolute;
+    width: 70px;
+    top: 10px;
+    left: 140px;
+}
+.halfButton {
+    position: absolute;
+    width: 70px;
+    left: 70px;
+    top: 10px;
+}
+.doubleButton {
+    position: absolute;
+    width: 70px;
+    left: 70px;
+    top: -10px;
+}
+.betAmount {
+    position: absolute;
+    width: 70px;
+    left: 140px;
+    top: -10px;
+}
+.chipArea {
+    position: absolute;
+    left: 570px;
+    top: 400px;
+}
+.amountBet {
+    color:#343434;
+}
+
+.chip5 {
+    position: absolute;
+    left: 50px; /* Adjust relative to .chip1 */
+    top: 0px;  /* Adjust relative to .chip1 */
+}
+
+.chip10 {
+    position: absolute;
+    left: 100px; /* Adjust relative to .chip1 */
+    top: 0px;  /* Adjust relative to .chip1 */
+}
+
+.chip100 {
+    position: absolute;
+    left: 150px; /* Adjust relative to .chip1 */
+    top: 0px;  /* Adjust relative to .chip1 */
 }
 
 .card-image:hover {
@@ -108,6 +203,9 @@ body {
 .button-group {
     text-align: center; /* Center buttons */
     margin-top: 20px; /* Space above buttons */
+    position: relative;
+    left: 200px;
+    z-index: 11;
 }
 
 .action-button {
@@ -118,6 +216,16 @@ body {
     border-radius: 5px; /* Rounded edges */
     cursor: pointer; /* Pointer cursor on hover */
     transition: background-color 0.3s; /* Smooth color transition */
+}
+.hit-button {
+    position: absolute;
+    left: 500px;
+    top: -63px;
+}
+.stand-button {
+    position: absolute;
+    left: 570px;
+    top: -63px;
 }
 
 .action-button:hover {
@@ -137,3 +245,32 @@ body {
     padding: 10px 20px; /* Inner spacing for buttons */
     margin: 0 10px; /* Space between buttons */
 }
+.new-round-button {
+    position: absolute;
+    left: 440px;
+    top: -122px;
+}
+.leave-game-button {
+    position: absolute;
+    left: 560px;
+    top: -122px;
+}
+
+.playerInfoArea {
+    position: absolute;
+    left: 380px;
+}
+
+.circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 100px;
+    width: 40px;            /* Set the width of the circle */
+    height: 40px;           /* Set the height of the circle */
+    border-radius: 50%;     /* Make it a perfect circle */
+    background-color: #f0f0f0; /* Set a background color */
+    font-size: 1.5rem;      /* Adjust font size as needed */
+    color: #333;            /* Text color */
+    border: 2px solid #333; /* Optional border */
+  }

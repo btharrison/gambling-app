@@ -1,0 +1,17 @@
+.box {
+    background-color: #fff;
+    margin:auto;
+    width:400px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: black;
+}
+
+label {
+    padding-left: 0px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
