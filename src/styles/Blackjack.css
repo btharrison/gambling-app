@@ -124,9 +124,6 @@ body {
     max-height: 105px; /* Maximum height for cards */
     margin-left: -50px; /* Space between cards */
 }
-.chip-image: {
-
-}
 
 .betArea {
     position: absolute;
