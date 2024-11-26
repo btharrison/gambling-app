@@ -82,7 +82,7 @@ const Blackjack = () => {
                 }
                 startNewGame(); // Call startNewGame if game is started
             }
-    }, [gameStarted, startNewGame]);                    // ERROR BECAUSE I DID NOT HAVE GAME START HERE, DONT REMOVE IF USING
+    }, [gameStarted]);                    // ERROR BECAUSE I DID NOT HAVE GAME START HERE, DONT REMOVE IF USING
 
     // Function for when the player chooses to Hit
     const hit = () => {
@@ -125,6 +125,7 @@ const Blackjack = () => {
         const dealerValue = calculateHand(updatedDealerHand); // Dealer's final hand value
         const playerValue = calculateHand(playerHand); // Player's final hand value
 
+        setDeck(newDeck); // Update deck
         // Determine game outcome based on hand values
         if(dealerValue > 21 || (playerValue > dealerValue)){
             setGameStatus('win');
@@ -135,7 +136,6 @@ const Blackjack = () => {
         else {
             setGameStatus('lose');
         }
-        setDeck(newDeck); // Update deck
     };
 
     const handleNewRoundOrLeave = (leave) => {  // Handle starting a new round or leaving the game
