@@ -12,7 +12,10 @@ const Blackjack = () => {
     const [gameStatus, setGameStatus] = useState('ongoing'); // Tracks game outcome: 'win', 'lose', 'bust', etc.
     const [playerTurn, setPlayerTurn] = useState(true); // Boolean for player's turn
     const [gameStarted, setGameStarted] = useState(false); // Track if game is started
+    const [betClicked, setBetClicked] = useState(false); // When the bet button is clicked
     const [total,setTotal] = useState(0);
+    
+    let accountSearch = true;       // Temp variable until accountSearch is implemented
 
     const handleChipClick = (value) => {
         if(value === -4 ) {              // CLEAR
@@ -42,9 +45,8 @@ const Blackjack = () => {
     };
     
     // Function to start a new round with a fresh deck if necessary
-    const startNewRound = useCallback(() => {
+    const startNewRound = useCallback((currentDeck) => {
         // Check if deck has enough cards; if not, shuffle a new deck MIGHT NOT NEED THIS
-        const currentDeck = [...deck];
         if(currentDeck.length < 4) {
             const newDeck = shuffleSort(createDeck()); // Create and shuffle new deck
             setDeck(newDeck);
@@ -67,22 +69,23 @@ const Blackjack = () => {
 
     // Function to start a new game when the "Start Game" button is pressed
     const startNewGame = useCallback(() => {
+        const newDeck = shuffleSort(createDeck()); // Create and shuffle new deck
+        setDeck(newDeck);
         setGameStatus('ongoing'); // Reset game status
         setPlayerTurn(true); // Set player's turn to true
-        startNewRound();
+        startNewRound(newDeck);
     }, [startNewRound]);
 
     // Effect to triggers the game start when gameStarted changes to true
     useEffect(() => {
-            if (gameStarted !== false){
-                if(deck.length <= 4) {     
-                    const newDeck = shuffleSort(createDeck())  // If deck is empty on bet then create a new deck
-                    const updateDeck = [...newDeck, deck];
-                    setDeck(updateDeck);
+            if (betClicked !== false){
+                if(accountSearch === true)
+                {
+                    setGameStarted(true);
+                    startNewGame(); // Call startNewGame if game is started
                 }
-                startNewGame(); // Call startNewGame if game is started
             }
-    }, [gameStarted]);                    // ERROR BECAUSE I DID NOT HAVE GAME START HERE, DONT REMOVE IF USING
+    }, [betClicked, startNewGame, accountSearch, gameStarted]);                    // ERROR BECAUSE I DID NOT HAVE GAME START HERE, DONT REMOVE IF USING
 
     // Function for when the player chooses to Hit
     const hit = () => {
@@ -142,6 +145,7 @@ const Blackjack = () => {
         if (leave) {
             //setGameStarted(false); // End the game if leaving
             // CHANGE THIS CODE< THE LOGIC IS NOT GOOD RIGHT NOW
+            setBetClicked(false);
             setGameStarted(false);
             //setDeck([]); // Clear deck
             setDeck(deck);
@@ -303,7 +307,7 @@ const Blackjack = () => {
             ) : !gameStarted ? ( 
                 <div className="end-game-display">
                         <div className="betArea">
-                            <button onClick={() => setGameStarted(true)} className="deal-button">BET</button>
+                            <button onClick={() => setBetClicked(true)} className="deal-button">BET</button>
                             <button className="clearButton" onClick={()=>handleChipClick(-4)}>CLEAR</button>
                             <button className="halfButton" onClick={()=>handleChipClick(-1)}>HALF</button>
                             <button className="doubleButton" onClick={()=>handleChipClick(-2)}>DOUBLE</button>
