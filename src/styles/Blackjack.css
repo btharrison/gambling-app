@@ -91,7 +91,7 @@ body {
     font-size: 1.5em; /* Subtitle size */
     margin: 0px;
     position: absolute;
-    left: 380px;
+    left: 410px;
     top: 120px;
 }
 
@@ -128,7 +128,7 @@ body {
 .betArea {
     position: absolute;
     z-index: 10;
-    left: 850px;
+    left: 900px;
     top: 500px;
 }
 .deal-button {
@@ -152,6 +152,9 @@ body {
     width: 70px;
     left: 70px;
     top: 10px;
+}
+.groupDealer {
+    position: relative;
 }
 .doubleButton {
     position: absolute;
@@ -255,7 +258,7 @@ body {
 
 .playerInfoArea {
     position: absolute;
-    left: 380px;
+    left: 410px;
 }
 
 .circle {

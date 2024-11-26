@@ -40,51 +40,11 @@ const Blackjack = () => {
             setTotal(prevTotal => prevTotal + value);
         }
     };
-    //const [probability, setProbability] = useState(null);
-
-    // const cardValueFunc = useCallback((currentCard) => {
-    //     let value = 0
-    //         if(currentCard.value === 'A')
-    //         {
-    //             value += 11;                        // Adding 11, to main count. If player busts on 11, then 
-    //         }
-    //         else if ((currentCard.value === 'J') || (currentCard.value === 'Q') || (currentCard.value === 'K')){
-    //             value += 10;                        // Adding value of face card
-    //         }  
-    //         else
-    //         {
-    //             value += parseInt(currentCard.value);      // converting string to int, to add value of numbered card
-    //         }
-    //         return value;
-    // }, []);
-
-    // const totalWinningCards = useCallback((currentCards, playerCount) =>  {
-    //     let cardCount = 0;
-    //     for(let card of currentCards) {
-    //         let cardNum = cardValueFunc(card);
-    //         if((playerCount + cardNum) <= 21)
-    //         {
-    //             cardCount++;
-    //         }
-    //     }
-    //     return cardCount;
-    // }, [cardValueFunc]);
-
-    // const calculateOdds = useCallback(() => {
-    //     //const currentPlayer = playerHand;
-    //     //const dealerShown = [dealerHand[0]];  // grabbing the hidden card to put back in temp deck
-    //     let currentCards = [...deck, dealerHand[1]];
-    //     const playerCount = calculateHand(playerHand);
-    //     let numCards = totalWinningCards(currentCards, playerCount);
-
-    //     let probablity = numCards / currentCards.length;            // Perecentage for player to hit <= 21
-
-    //     setProbability(probablity);
-    // }, [deck, dealerHand, playerHand, totalWinningCards]);
     
     // Function to start a new round with a fresh deck if necessary
-    const startNewRound = useCallback((currentDeck) => {
-        // Check if deck has enough cards; if not, shuffle a new deck
+    const startNewRound = useCallback(() => {
+        // Check if deck has enough cards; if not, shuffle a new deck MIGHT NOT NEED THIS
+        const currentDeck = [...deck];
         if(currentDeck.length < 4) {
             const newDeck = shuffleSort(createDeck()); // Create and shuffle new deck
             setDeck(newDeck);
@@ -107,17 +67,19 @@ const Blackjack = () => {
 
     // Function to start a new game when the "Start Game" button is pressed
     const startNewGame = useCallback(() => {
-        const newDeck = shuffleSort(createDeck()); // Create and shuffle new deck
-        setDeck(newDeck);
-        
         setGameStatus('ongoing'); // Reset game status
         setPlayerTurn(true); // Set player's turn to true
-        startNewRound(newDeck); // Initialize a new round
+        startNewRound();
     }, [startNewRound]);
 
     // Effect to triggers the game start when gameStarted changes to true
     useEffect(() => {
             if (gameStarted !== false){
+                if(deck.length <= 4) {     
+                    const newDeck = shuffleSort(createDeck())  // If deck is empty on bet then create a new deck
+                    const updateDeck = [...newDeck, deck];
+                    setDeck(updateDeck);
+                }
                 startNewGame(); // Call startNewGame if game is started
             }
     }, [gameStarted, startNewGame]);                    // ERROR BECAUSE I DID NOT HAVE GAME START HERE, DONT REMOVE IF USING
@@ -181,39 +143,20 @@ const Blackjack = () => {
             //setGameStarted(false); // End the game if leaving
             // CHANGE THIS CODE< THE LOGIC IS NOT GOOD RIGHT NOW
             setGameStarted(false);
-            setDeck([]); // Clear deck
+            //setDeck([]); // Clear deck
+            setDeck(deck);
             setPlayerHand([]); // Clear player hand
             setDealerHand([]); // Clear dealer hand
             setGameStatus('ongoing'); // Reset game status, DO NOT CHANGE, changed to wait, and made loading after start game spasm 
             setPlayerTurn(true); // Reset player turn
-        } else {
-            // Start a new round
-            setGameStatus('ongoing');
-            setPlayerTurn(true)
-            setPlayerHand([]); // Clear player hand
-            setDealerHand([]); // Clear dealer hand
-            startNewRound(deck); // Start a new round with current deck
         }
-        // setGameStatus('ongoing'); // Reset game status
-        // setPlayerTurn(true); // Reset player turn        Moved into if statement 
     };   
-
-    //Function Might use to handle once betting is implemented
-    // const handleStartGame = () => {
-    //     setGameStarted(true); // Set gameStarted to true to start the game
-    // };
 
     return (
         <div className="container">
             {/* Main game board container */}
             <div className="game-board">
                 {/* Game title */}
-                    {/* <div className="betArea">
-                        <button className="clearButton" onClick={()=>handleChipClick(-4)}>CLEAR</button>
-                        <button className="halfButton" onClick={()=>handleChipClick(-1)}>HALF</button>
-                        <button className="doubleButton" onClick={()=>handleChipClick(-2)}>DOUBLE</button>
-                        <button className="maxButton" onClick={()=>handleChipClick(-3)}>MAX</button>
-                        <input className="betAmount" value={total} ></input> {/* Display the current total */}
                     <div className="dealer-container">
                         <div className="dealer-table">
                             {/* Dealer's hand section */}
@@ -269,39 +212,39 @@ const Blackjack = () => {
                                         /></div>
                                 </div>
                             { gameStarted !== false && (
-                                <>
-                                <h2 className="dealerSubtitle">
-                                    <span className="circle">
-                                    {" "}
-                                    {!playerTurn ? (
-                                        calculateHand(dealerHand)       // If its dealer turn, show running count
-                                    ) : (
-                                        dealerHand[0] ? calculateHand([dealerHand[0]]) : '' 
-                                    )}
-                                    </span>
-                                </h2>
-                                <div className="hand-text dealer-hand">
-                                    {dealerHand.map((card, index) => 
-                                        // Show dealer's first card or all cards if player's turn has ended
-                                        index === 0 || !playerTurn ? (
-                                            <img
-                                                key={index}
-                                                src={card.image}
-                                                alt={`${card.value} of ${card.suit}`}
-                                                className="card-image"
-                                            />
+                                <div className="groupDealer">
+                                    <h2 className="dealerSubtitle">
+                                        <span className="circle">
+                                        {" "}
+                                        {!playerTurn ? (
+                                            calculateHand(dealerHand)       // If its dealer turn, show running count
                                         ) : (
-                                            // Hide other cards while it's the player's turn
-                                            <img
-                                                key={index}
-                                                src={'/Images/cards/hidden.png'}
-                                                alt=''
-                                                className="card-image"
-                                            />
-                                        )
-                                    )}
-                                </div>
-                                </> 
+                                            dealerHand[0] ? calculateHand([dealerHand[0]]) : '' 
+                                        )}
+                                        </span>
+                                    </h2>
+                                    <div className="hand-text dealer-hand">
+                                        {dealerHand.map((card, index) => 
+                                            // Show dealer's first card or all cards if player's turn has ended
+                                            index === 0 || !playerTurn ? (
+                                                <img
+                                                    key={index}
+                                                    src={card.image}
+                                                    alt={`${card.value} of ${card.suit}`}
+                                                    className="card-image"
+                                                />
+                                            ) : (
+                                                // Hide other cards while it's the player's turn
+                                                <img
+                                                    key={index}
+                                                    src={'/Images/cards/hidden.png'}
+                                                    alt=''
+                                                    className="card-image"
+                                                />
+                                            )
+                                        )}
+                                    </div>
+                                </div> 
                             )}    
                             {/** The <>  fixed adjacent error issue */}
                             </div>
@@ -336,13 +279,12 @@ const Blackjack = () => {
                                 )}
                             </div>
                             {/* Deck card count display */}
-                            {gameStarted && (
+                            
                                 <div className="cardCount">
                                 <label>
                                     {deck.length}
                                 </label>
                                 </div>
-                            )}  
                         </div>
                     </div>
                     
@@ -376,8 +318,8 @@ const Blackjack = () => {
                             {gameStatus === 'win' ? 'You Win!' : gameStatus === 'lose' ? 'You Lose!' : gameStatus === 'bust' ? 'You Busted' : 'It\'s a Push!'}
                         </h2>
                         <div className="button-group">
-                            <button onClick={() => handleNewRoundOrLeave(false)} className="new-round-button">New Round</button>
-                            <button onClick={() => handleNewRoundOrLeave(true)} className="leave-game-button">Leave Game</button>
+                            {/* <button onClick={() => handleNewRoundOrLeave(false)} className="new-round-button">New Round</button> */}
+                            <button onClick={() => handleNewRoundOrLeave(true)} className="leave-game-button">Ok</button>
                         </div>
                     </div>
             )}
