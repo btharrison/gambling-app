@@ -37,7 +37,7 @@ const Blackjack = () => {
             });
         }
         else {
-            setTotal(prevTotal => prevTotal + value);
+            setTotal(prevTotal => prevTotal + value); // Add
         }
     };
     
