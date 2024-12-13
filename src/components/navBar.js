@@ -13,7 +13,7 @@ export default function NavBar() {
                         <CustomLink to="/Blackjack">Blackjack</CustomLink> {/* Active, allows for the highlight feature */}
                     </li>
                     <li>
-                        <CustomLink to="/OtherPage">Other Page</CustomLink>
+                        <CustomLink to="/hol">Higher or Lower</CustomLink>
                     </li>
                 </ul>
             </nav>

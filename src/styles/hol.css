@@ -1,0 +1,93 @@
+.page {
+    position: relative;
+}
+
+.gameBoard {
+    position: absolute;
+    width: 650px;                       /**/
+    height: 600px;                      /*Creates the height of the box*/
+    border: 45px solid #333333;     /* Setting the border width and color*/
+    background-color: #007a33;      /* Setting the inner box color*/
+    border-radius: 50px;
+    transform: translate(-50%, 10%);     /* Moves the element back %50 to center, the 10% moves from the top */
+    margin: 0;
+    left: 50%;                      /*Makes the start of the element the center, Not fully center, need to transform*/
+}
+
+.cards {
+    position: absolute;
+    width: 300px;           /* Creating the size for box for the cards*/
+    height: 300px;
+    left: 50%;
+    transform: translate(-40%, 10%);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);  /* Creates 3 equal-width columns */
+    gap: 30px;  /* Adds space between cards */
+    justify-items: center;  /* Center the cards within their grid cells */
+}
+
+.card-image1 {
+    max-width: 93.75px; /* Maximum width for cards */
+    max-height: 131.25px; /* Maximum height for cards */
+}
+
+.deck {
+    position: absolute;
+    top: 5%;
+    left: 10%;
+}
+.card-image2 {
+    max-width: 93.75px; /* Maximum width for cards */
+    max-height: 131.25px; /* Maximum height for cards */
+    margin-left: -40px; /* Space between cards */
+}
+
+.initializeGame {
+    position: absolute;
+    transform: translate(-100%, 3600%);
+    left: 50%;
+}
+
+.Buttons {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+}
+.button {
+    width: 40px;
+}
+
+.card-image1:hover, .card-image2:hover {
+    transform: translateY(-5px) scale(1); /* Moves the card up slightly and enlarges it */
+    transition: transform 0.3s ease-in-out;  /* Smooth transition */
+}
+
+.card-image1:focus {
+    border: 2px solid gold;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.chip-image2 {
+    max-width: 75px; /* Maximum width for cards */
+    max-height: 105px; /* Maximum height for cards */
+    margin-left: -50px; /* Space between cards */
+}
+
+.chipArea2 {
+    position: absolute;
+    left: 58%;
+    transform: translate(-150%, 1310%);
+}
+
+.betArea2 {
+    position: absolute;
+    z-index: 10;
+    left: 53%;
+    top: 628px;
+}
+
+.cardCount2 {
+    position: absolute;
+    z-index: 10;
+}

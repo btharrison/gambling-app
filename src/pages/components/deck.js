@@ -15,6 +15,17 @@ const createDeck = () => {
     return starterDeck;
 }
 
+const createHoL = (value) => {
+    const starterDeck = [];
+    for (let i = 0; i < value; i++) {
+        starterDeck.push({                    // Adding card to array, with suit, value, and image location 
+            suit: 'hidden', 
+            value: 'hidden',
+            image: `/Images/cards/hidden.png`});
+    }
+    return starterDeck;
+}
+
 const shuffleSort = (...decks) => {  
     // Pushing all decks into one single array
         const shuffledCards = [].concat(...decks);
@@ -36,4 +47,4 @@ const shuffleSort = (...decks) => {
     return shuffledCards;
 }
 
-module.exports= {createDeck, shuffleSort};
+module.exports= {createDeck, shuffleSort, createHoL};
