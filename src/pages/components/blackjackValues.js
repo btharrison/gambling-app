@@ -17,10 +17,10 @@ const calculateHand = (hand) => {
     }
     // If the player has aces and busts, this auto adjusts the card value to lower value with ace included
     while(value > 21 && aceCount > 0){
-        value -= 10;
-        aceCount -= 1;    
+        value -= 10;            // Removes ten, so the ace is valued as 1
+        aceCount -= 1;          // removes the ace from the count
     }
-    return value;
+    return value;               // returns the value
 }
 
 module.exports = {calculateHand};

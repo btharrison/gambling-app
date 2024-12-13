@@ -1,12 +1,12 @@
-const suits = ['Spades', 'Clubs', 'Diamonds', 'Hearts'];
-const values = ['2','3','4','5','6','7','8','9','10','J','Q','K','A']
+const suits = ['Spades', 'Clubs', 'Diamonds', 'Hearts'];                        // Defining all card suits
+const values = ['2','3','4','5','6','7','8','9','10','J','Q','K','A']           // Defining all card values
 
 // Using a nested for loop to pair suits with values to create single deck
 const createDeck = () => {
-    const starterDeck = [];
+    const starterDeck = [];                     // Initializng deck
     for(let suit of suits) {                     // Creating a loop to go through each suit
         for(let value of values) {               // Creating a loop to go through each value, while going through each suit
-            starterDeck.push({
+            starterDeck.push({                    // Adding card to array, with suit, value, and image location 
                 suit, 
                 value,
                 image: `/Images/cards/${value}_of_${suit.toLowerCase()}.png`});
@@ -15,7 +15,7 @@ const createDeck = () => {
     return starterDeck;
 }
 
-const shuffleSort = (...decks) => {          // Using four decks 
+const shuffleSort = (...decks) => {  
     // Pushing all decks into one single array
         const shuffledCards = [].concat(...decks);
     
