@@ -55,8 +55,8 @@
 }
 
 .newGame {
-    position: relative;
-    top: -95px;
+    position: absolute;
+    top: 74px;
 }
 .button {
     width: 40px;
@@ -118,4 +118,10 @@
 
 .gameButton {
     width: 60px;
+}
+
+.newButton {
+    width:80px;
+    left: 50%;
+    transform: translate(-50%);
 }

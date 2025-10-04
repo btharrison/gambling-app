@@ -320,7 +320,9 @@ const Blackjack = () => {
                                             <h2 className="subtitle mt">
                                                 <span className="circle">{calculateHand(playerHand)}</span>
                                             </h2>
-                                            <h2 className="amountBet">{total}</h2>
+                                            <h2 className="amountBet" style={{ color: gameStatus === 'win' ? '#dba100ff' : gameStatus === 'lose' || gameStatus === 'bust' ? '#b80404ff' : '#343434'}}>
+                                                {gameStatus === 'win' ? total * 2 : gameStatus === 'lose' || gameStatus === 'bust' ? total : total}
+                                            </h2>
                                             <img
                                                     src={'/Images/chipbet.png'}
                                                     alt=''

@@ -23,6 +23,12 @@ const HoL = () => { // Higher or Lower
         '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0, 'A': 0
     });
 
+    const betX = {
+        3: 30,
+        6: 3,
+        9: 2
+    };
+
 
     const handleHigher = () => {
         console.log("Higher clicked")
@@ -198,9 +204,9 @@ const HoL = () => { // Higher or Lower
         for(let  i = 0; i < stackSize; i++) {
             playerHand[i] = newDeck.pop();
         }
-        for(let  i = 0; i < 40; i++) {
-            newDeck.pop();
-        }
+        // for(let  i = 0; i < 40; i++) {
+        //     newDeck.pop();
+        // }
         setDeck(newDeck);       // Setting the global deck to the current deck
         setGameStatus('ongoing');   // Set game state to in progress
         setSelectedCard(null);          // Making sure selected card is empty before cards have been dealt
@@ -217,7 +223,10 @@ const HoL = () => { // Higher or Lower
         <div className="page">
             <div className="resultLabel">
                 <label>
-                    {gameStatus === 'won' ? 'YOU WIN' : gameStatus === 'lose' ? 'YOU LOSE' : ''}
+                    {gameStatus === 'won' ? `YOU WIN ` : gameStatus === 'lose' ? `YOU LOSE ` : gameStatus === 'ongoing' ? 'CURRENT BET ' : ''}
+                </label>
+                <label style={{ color: gameStatus === 'won' ? '#dba100ff' : gameStatus === 'lose' ? '#b80404ff' : 'black'}}>
+                    {gameStatus === 'won' ? `${total * betX[stackSize]}` : gameStatus === 'lose' ? `${total}` : gameStatus === 'ongoing' ? `${total}` : ''}
                 </label>
             </div>
             <div className="gameBoard">
@@ -359,8 +368,8 @@ const HoL = () => { // Higher or Lower
             {betClicked && (gameStatus === 'won' || gameStatus === 'lose') && (
             <div className="newGame">
                 <>
-                <button onClick={()=>resetGame()} className="button">
-                New
+                <button onClick={()=>resetGame()} className="newButton">
+                New Game
                 </button>
                 </>
             </div>
