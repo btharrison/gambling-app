@@ -10,16 +10,16 @@ export default function NavBar() {
             <nav className="nav">
                 <ul className="nav__links">
                     <li>
-                        <CustomLink to="/Blackjack">Blackjack</CustomLink> {/* Active, allows for the highlight feature */}
+                        <CustomLink to="/blackjack">Blackjack</CustomLink> {/* Active, allows for the highlight feature */}
                     </li>
                     <li>
-                        <CustomLink to="/hol">Higher or Lower</CustomLink>
+                        <CustomLink to="/btd">Beat the Deck</CustomLink>
                     </li>
                 </ul>
             </nav>
             <ul className="accountStuff">
                 <li>
-                    <CustomLink to="/Account" >Account</CustomLink>
+                    <CustomLink to="/account" >Account</CustomLink>
                 </li>
             </ul>
         </header>

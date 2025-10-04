@@ -56,7 +56,7 @@ const Blackjack = () => {
     // Function to start a new round with a fresh deck if necessary
     const startNewRound = useCallback((currentDeck) => {
         // Check if deck has enough cards; if not, shuffle a new deck MIGHT NOT NEED THIS
-        if(currentDeck.length < 4) {
+        if(currentDeck.length <= 4) {
             const newDeck = shuffleSort(createDeck()); // Create and shuffle new deck
             currentDeck = [...newDeck];
             setDeck(currentDeck);
@@ -113,11 +113,27 @@ const Blackjack = () => {
     // Function for when the player chooses to Hit
     const hit = () => {
         if(playerTurn && gameStatus === 'ongoing'){
-            const newDeck = [...deck];                                  // Clone deck to avoid potential problems
+            let newDeck;                                        // Clone deck to avoid potential problems
+
+            // Checking if there are no cards to pull
+            if(deck.length === 0){                                    // if there are no new cards to get
+                newDeck = shuffleSort(createDeck());
+            }
+            else {
+                newDeck = [...deck];                                  // Clone deck to avoid potential problems
+            }
+
             const dealtCard = newDeck.pop();                            // Pop the top card off, and use for deal
             const updatedPlayerHand = [...playerHand, dealtCard];       // Append the new card to the playerHand Array
             setPlayerHand(updatedPlayerHand);                           // Update player hand state
-            setDeck(newDeck);                                           // Update deck state
+
+            // Making sure that the updated deck is not empty
+            if(newDeck.length > 0){
+                setDeck(newDeck);                                           // Update deck state
+            }
+            else{
+                setDeck(shuffleSort(createDeck()));
+            }
 
             const currentValue = calculateHand(updatedPlayerHand);      // Calculate new hand value
             if(currentValue > 21) {                                     // If player busts, end game
@@ -145,7 +161,11 @@ const Blackjack = () => {
         let newDeck = [...deck];
 
         while(calculateHand(updatedDealerHand) <= 16){
-            updatedDealerHand.push(newDeck.pop()); // Dealer draws until 17 or higher
+            if(newDeck.length === 0) {  // if the deck is empty, generate a new deck
+                newDeck = shuffleSort(createDeck());
+            }
+            const newCard = newDeck.pop();
+            updatedDealerHand.push(newCard); // Dealer draws until 17 or higher
         }
         setDealerHand(updatedDealerHand); // Update dealer's hand
         setDeck(newDeck);
