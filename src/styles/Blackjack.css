@@ -89,10 +89,10 @@ body {
 }
 .dealerSubtitle {
     font-size: 1.5em; /* Subtitle size */
-    margin: 0px;
     position: absolute;
-    left: 410px;
-    top: 120px;
+    left: 48%;
+    transform: translateX(-50%);
+    top: 110%
 }
 
 .hand-text {
@@ -128,8 +128,8 @@ body {
 .betArea {
     position: absolute;
     z-index: 10;
-    left: 900px;
-    top: 500px;
+    left: 45%;
+    top: 58.8%;
 }
 .deal-button {
     position: absolute;
@@ -170,11 +170,15 @@ body {
 }
 .chipArea {
     position: absolute;
-    left: 570px;
-    top: 400px;
+    left: 50%;
+    top: 63%;
+    z-index: 10;
+    transform: translateX(-220%);
+
 }
 .amountBet {
     color:#343434;
+    padding-top: 5px;
 }
 
 .chip5 {
@@ -241,24 +245,23 @@ body {
     margin-bottom: 10px; /* Space below status */
 }
 
-.new-round-button, .leave-game-button {
+ .leave-game-button {
     padding: 10px 20px; /* Inner spacing for buttons */
     margin: 0 10px; /* Space between buttons */
 }
-.new-round-button {
-    position: absolute;
-    left: 440px;
-    top: -122px;
-}
+
+
 .leave-game-button {
     position: absolute;
-    left: 560px;
+    left: 35%;
     top: -122px;
 }
 
 .playerInfoArea {
     position: absolute;
-    left: 410px;
+    left: 50%px;
+    transform: translateX(-50%);
+    top: 84%
 }
 
 .circle {

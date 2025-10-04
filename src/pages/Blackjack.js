@@ -9,7 +9,7 @@ const Blackjack = () => {
     const [deck, setDeck] = useState([]); // Current deck of cards
     const [playerHand, setPlayerHand] = useState([]); // Player's hand
     const [dealerHand, setDealerHand] = useState([]); // Dealer's hand
-    const [gameStatus, setGameStatus] = useState(null); // Tracks game outcome: 'win', 'lose', 'bust', 'ongoing' etc.
+    const [gameStatus, setGameStatus] = useState(null); // Tracks game outcome: 'win', 'lose', 'bust', 'ongoing', 'blackjack' etc.
     const [playerTurn, setPlayerTurn] = useState(false); // Boolean for player's turn
     const [gameStarted, setGameStarted] = useState(false); // Track if game is started
     const [betClicked, setBetClicked] = useState(false); // When the bet button is clicked
@@ -175,7 +175,11 @@ const Blackjack = () => {
 
         setDeck(newDeck); // Update deck
         // Determine game outcome based on hand values
-        if(dealerValue > 21 || (playerValue > dealerValue)){
+        if((dealerValue > 21 || dealerValue < 21) && playerValue === 21){
+            setBetClicked(false);
+            setGameStatus('blackjack');
+        }
+        else if(dealerValue > 21 || (playerValue > dealerValue)){
             setBetClicked(false);
             setGameStatus('win');
         }
@@ -206,6 +210,31 @@ const Blackjack = () => {
 
     return (
         <div className="container">
+            {/* The chips for betting, the appear when the game has not been started */}
+            { gameStarted === false && (
+            <div className="chipArea">
+                <div className="chip1" onClick={()=>handleChipClick(1)}><img
+                    src={'/Images/chips/chip1.png'}
+                    alt=''
+                    className="chip-image"
+                /></div>
+                <div className="chip5" onClick={()=>handleChipClick(5)}><img
+                    src={'/Images/chips/chip5.png'}
+                    alt=''
+                    className="chip-image"
+                /></div>
+                <div className="chip10" onClick={()=>handleChipClick(10)}><img
+                    src={'/Images/chips/chip10.png'}
+                    alt=''
+                    className="chip-image"
+                /></div>
+                <div className="chip100" onClick={()=>handleChipClick(100)}><img
+                    src={'/Images/chips/chip100.png'}
+                    alt=''
+                    className="chip-image"
+                /></div>
+            </div>
+            )}
             {/* Main game board container */}
             <div className="game-board">
                 {/* Game title */}
@@ -214,67 +243,35 @@ const Blackjack = () => {
                             {/* Dealer's hand section */}
                             <div className="dealer-area">
                             <div className="mainDeck">
-                                    <div className="card1"><img
+                                <div className="card1"><img
+                                    src={'/Images/cards/hidden.png'}
+                                    alt=''
+                                    className="card-image"
+                                /></div>
+                                <div className="card2">
+                                    <img
                                         src={'/Images/cards/hidden.png'}
                                         alt=''
                                         className="card-image"
-                                    /></div>
-                                    <div className="card2">
-                                        <img
-                                            src={'/Images/cards/hidden.png'}
-                                            alt=''
-                                            className="card-image"
-                                        />
-                                    </div>
-                                    <div className="card3">
-                                        <img
-                                            src={'/Images/cards/hidden.png'}
-                                            alt=''
-                                            className="card-image"
-                                        />
-                                    </div>
-                                    <div className="card4">
-                                        <img
-                                            src={'/Images/cards/hidden.png'}
-                                            alt=''
-                                            className="card-image"
-                                        />
-                                    </div>
+                                    />
                                 </div>
-                                    <div className="chipArea">
-                                        <div className="chip1" onClick={()=>handleChipClick(1)}><img
-                                            src={'/Images/chips/chip1.png'}
-                                            alt=''
-                                            className="chip-image"
-                                        /></div>
-                                        <div className="chip5" onClick={()=>handleChipClick(5)}><img
-                                            src={'/Images/chips/chip5.png'}
-                                            alt=''
-                                            className="chip-image"
-                                        /></div>
-                                        <div className="chip10" onClick={()=>handleChipClick(10)}><img
-                                            src={'/Images/chips/chip10.png'}
-                                            alt=''
-                                            className="chip-image"
-                                        /></div>
-                                        <div className="chip100" onClick={()=>handleChipClick(100)}><img
-                                            src={'/Images/chips/chip100.png'}
-                                            alt=''
-                                            className="chip-image"
-                                        /></div>
+                                <div className="card3">
+                                    <img
+                                        src={'/Images/cards/hidden.png'}
+                                        alt=''
+                                        className="card-image"
+                                    />
                                 </div>
+                                <div className="card4">
+                                    <img
+                                        src={'/Images/cards/hidden.png'}
+                                        alt=''
+                                        className="card-image"
+                                    />
+                                </div>
+                            </div>
                             { gameStarted !== false && (
                                 <div className="groupDealer">
-                                    <h2 className="dealerSubtitle">
-                                        <span className="circle">
-                                        {" "}
-                                        {!playerTurn ? (
-                                            calculateHand(dealerHand)       // If its dealer turn, show running count
-                                        ) : (
-                                            dealerHand[0] ? calculateHand([dealerHand[0]]) : '' 
-                                        )}
-                                        </span>
-                                    </h2>
                                     <div className="hand-text dealer-hand">
                                         {dealerHand.map((card, index) => 
                                             // Show dealer's first card OR all cards if player's turn has ended
@@ -295,6 +292,16 @@ const Blackjack = () => {
                                                 />
                                             )
                                         )}
+                                        <h2 className="dealerSubtitle">
+                                            <span className="circle">
+                                            {" "}
+                                            {!playerTurn ? (
+                                                calculateHand(dealerHand)       // If its dealer turn, show running count
+                                            ) : (
+                                                dealerHand[0] ? calculateHand([dealerHand[0]]) : '' 
+                                            )}
+                                            </span>
+                                        </h2>
                                     </div>
                                 </div> 
                             )}    
@@ -315,30 +322,45 @@ const Blackjack = () => {
                                                     className={`card-image ${index === 0 ? 'first-card' : 'next-card'}`}
                                                 />
                                             ))}
+                                            <div className="playerInfoArea">
+                                                <h2 className="subtitle mt">
+                                                    <span className="circle">{calculateHand(playerHand)}</span>
+                                                </h2>
+                                                <h2 className="amountBet" style={{ color: gameStatus === 'win' || gameStatus === 'blackjack' ? '#dba100ff' : gameStatus === 'lose' || gameStatus === 'bust' ? '#b80404ff' : '#343434'}}>
+                                                    {gameStatus === 'win' ? total * 2 : gameStatus === 'lose' || gameStatus === 'bust' ? total : gameStatus === 'blackjack' ? total * 3 : total}
+                                                </h2>
+                                                <img
+                                                        style={{ top: '55%',
+                                                                paddingTop: '8px'
+                                                        }}
+                                                        src={'/Images/chipbet.png'}
+                                                        alt=''
+                                                        className="chipBet"
+                                                />
+                                            </div>
                                         </div>
-                                        <div className="playerInfoArea">
+                                        {/* <div className="playerInfoArea">
                                             <h2 className="subtitle mt">
                                                 <span className="circle">{calculateHand(playerHand)}</span>
                                             </h2>
-                                            <h2 className="amountBet" style={{ color: gameStatus === 'win' ? '#dba100ff' : gameStatus === 'lose' || gameStatus === 'bust' ? '#b80404ff' : '#343434'}}>
-                                                {gameStatus === 'win' ? total * 2 : gameStatus === 'lose' || gameStatus === 'bust' ? total : total}
+                                            <h2 className="amountBet" style={{ color: gameStatus === 'win' || gameStatus === 'blackjack' ? '#dba100ff' : gameStatus === 'lose' || gameStatus === 'bust' ? '#b80404ff' : '#343434'}}>
+                                                {gameStatus === 'win' ? total * 2 : gameStatus === 'lose' || gameStatus === 'bust' ? total : gameStatus === 'blackjack' ? total * 3 : total}
                                             </h2>
                                             <img
                                                     src={'/Images/chipbet.png'}
                                                     alt=''
                                                     className="chipBet"
                                             />
-                                        </div>
+                                        </div> */}
                                     </>
                                 )}
                             </div>
                             {/* Deck card count display */}
-                            
-                                <div className="cardCount">
+                                {/* <div className="cardCount">
                                 <label>
                                     {deck.length}
                                 </label>
-                                </div>
+                                </div> */}
                         </div>
                     </div>
                     
@@ -363,7 +385,7 @@ const Blackjack = () => {
               // Display game result and buttons to start a new round or leave the game after the game ends
                     <div className="end-game-display">
                         <h2 className="game-status">
-                            {gameStatus === 'win' ? 'You Win!' : gameStatus === 'lose' ? 'You Lose!' : gameStatus === 'bust' ? 'You Busted' : 'It\'s a Push!'}
+                            {gameStatus === 'win' ? 'You Win!' : gameStatus === 'lose' ? 'You Lose!' : gameStatus === 'bust' ? 'You Busted' : gameStatus === 'blackjack' ? 'BLACKJACK!' : 'It\'s a Push!'}
                         </h2>
                         <div className="button-group">
                             {/* <button onClick={() => handleNewRoundOrLeave(false)} className="new-round-button">New Round</button> */}

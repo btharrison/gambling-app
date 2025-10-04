@@ -44,8 +44,9 @@
 
 .initializeGame {
     position: absolute;
-    transform: translate(-100%, 3600%);
+    transform: translateX(-100%);
     left: 50%;
+    top: 668px;
 }
 
 .Buttons {
