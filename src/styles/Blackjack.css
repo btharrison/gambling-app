@@ -12,11 +12,14 @@ body {
     position: relative; /* Position relative for any absolute children */
 }
 
+.container {
+    height: calc(100vh - 60px);
+}
 /* Dealer Table Styles */
 .dealer-table {
     width: 60%; /* Width of the table */
     margin: 1px auto 20px auto; /* Negative margin to pull it up, center it, and add space below */
-    height: 500px;
+    height: 58.8vh;
     padding: 0px; /* Inner spacing */
     background-color: #007a33; /* Green felt color */
     background-image: url("/public/Images/tableBackgroundd.png");

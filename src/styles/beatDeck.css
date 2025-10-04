@@ -57,7 +57,8 @@
 
 .newGame {
     position: absolute;
-    top: 74px;
+    top: 102%;
+    left: 50%
 }
 .button {
     width: 40px;

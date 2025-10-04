@@ -284,6 +284,15 @@ const HoL = () => { // Higher or Lower
                 </label>
             </div>
             <div className="gameBoard">
+                {betClicked && (gameStatus === 'won' || gameStatus === 'lose') && (
+                    <div className="newGame">
+                        <>
+                        <button onClick={()=>resetGame()} className="newButton">
+                        New Game
+                        </button>
+                        </>
+                    </div>
+                )}
                 <div className="cardCount2">
                 { betClicked && (
                     <>
@@ -395,15 +404,6 @@ const HoL = () => { // Higher or Lower
                     <button onClick={()=>generateStacks(9)} className="button">9</button>
                 </div>
                 </>
-            )}
-            {betClicked && (gameStatus === 'won' || gameStatus === 'lose') && (
-            <div className="newGame">
-                <>
-                <button onClick={()=>resetGame()} className="newButton">
-                New Game
-                </button>
-                </>
-            </div>
             )}
             </div>
         </div>
