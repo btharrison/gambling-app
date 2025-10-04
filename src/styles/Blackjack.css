@@ -2,6 +2,7 @@ body {
     background-color: #1c3f3f; /* Dark background for contrast */
     color: #fff; /* White text for readability */
     font-family: 'Arial', sans-serif; /* Font styling */
+    overflow-x: hidden;
 }
 
 /* Example Navbar CSS (you can adjust this according to your existing styles) */
@@ -48,7 +49,7 @@ body {
 
 .dealer-area, .player-area {
     text-align: center; /* Center align text in both areas */
-    margin-bottom: 130px; /* Space between dealer and player areas */
+    margin-bottom: 14%; /* Space between dealer and player areas */
 }
 
 .mainDeck {
