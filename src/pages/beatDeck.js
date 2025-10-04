@@ -20,7 +20,7 @@ const HoL = () => { // Higher or Lower
     };
 
     const [cardCount, setCardCount] = useState({
-        '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0, 'A': 0
+        '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0, 'A': 0, 'total': 0
     });
 
     const betX = {
@@ -29,17 +29,46 @@ const HoL = () => { // Higher or Lower
         9: 2
     };
 
+    const calculatePercentages = (cardValue) => {
+        let higherCount = 0
+        let lowerCount = 0
+        let cardInt = cardValueMap[cardValue]
+        if(cardValue === 'A'){
+            return [1, 1]       // we play where A is highest and lowest card
+        }
+        for (const [key, value] of Object.entries(cardCount)) {
+            // Iterating through list of seen cards and totaling cards that are higher and lower
+            if(key !== 'total') {
+                if(key !== 'A'){
+                    if(cardValueMap[key] > cardInt) {
+                        higherCount += 4 - value
+                    }
+                    else if (cardValueMap[key] < cardInt){
+                        lowerCount += 4 - value
+                    }
+                }
+            }    
+        }
+        // Adding ace count to smallest percentage
+        higherCount > lowerCount ? lowerCount += (4 - cardCount['A']) : higherCount += (4-cardCount['A']);
+
+        // Returing array of higher and lower, subtracting cards equal from the count
+        return [(higherCount )/ (52 - cardCount['total']) , (lowerCount)/ (52 - cardCount['total'])]
+    }
 
     const handleHigher = () => {
         console.log("Higher clicked")
         if(playerHand[selectedCard].suit !== 'hidden') {    // Making sure a failed card is not picked
             const newDeck = deck;
             const newCard = newDeck.pop();          // Should not worry about deck being zero, should be handled before
-            setCardCount(prev => ({
-            ...prev,
-            [newCard.value]: prev[newCard.value] + 1
-            }));
-            console.log(cardCount);  // Remove this later
+            // Utilizing a set for state variable, it does not update immediately so cardCount can be a little off that way. Changed to manual overide
+            const updatedCardCount = {
+                ...cardCount,
+                [newCard.value]: (cardCount[newCard.value] || 0) + 1,
+                'total': cardCount['total'] + 1
+            };
+            setCardCount(updatedCardCount);
+
             setCurrentCard(newCard)
             let gameContinue = false;
             const newPlayerHand = [...playerHand]
@@ -63,6 +92,7 @@ const HoL = () => { // Higher or Lower
             }
             setDeck(newDeck);
             setPlayerHand(newPlayerHand);
+            console.log(updatedCardCount);  // Remove this later
 
             for(let i = 0; i < stackSize; i++) {
             // iterating through player hand to see if all values are not hidden, if a value that is not hidden is found, we must continue the game.
@@ -87,11 +117,14 @@ const HoL = () => { // Higher or Lower
         if(playerHand[selectedCard].suit !== 'hidden') {
             const newDeck = deck;
             const newCard = newDeck.pop();          // Should not worry about deck being zero, should be handled before, might need to double check aces
-            setCardCount(prev => ({
-            ...prev,
-            [newCard.value]: prev[newCard.value] + 1
-            }));
-            console.log(cardCount);         // REMOVE THIS LATER
+            
+            const updatedCardCount = {
+                ...cardCount,
+                [newCard.value]: (cardCount[newCard.value] || 0) + 1,
+                'total': cardCount['total'] + 1
+            };
+            setCardCount(updatedCardCount);
+
             setCurrentCard(newCard)
             let gameContinue = false;
             const newPlayerHand = [...playerHand]
@@ -113,7 +146,8 @@ const HoL = () => { // Higher or Lower
             }
             setDeck(newDeck);
             setPlayerHand(newPlayerHand);
-            
+            console.log(updatedCardCount);         // REMOVE THIS LATER
+
             for(let i = 0; i < stackSize; i++) {
             // iterating through player hand to see if all values are not hidden, if a value that is not hidden is found, we must continue the game.
                 if(newPlayerHand[i].suit !== 'hidden') {
@@ -199,12 +233,20 @@ const HoL = () => { // Higher or Lower
         setSelectedCard(null);
         setStackSize(null);
         setCurrentCard(null);
+        let newCardCount = {'2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0, 'A': 0, 'total': 0};
+        setCardCount(newCardCount);
     }
 
     const initialDeal = () => {
         const newDeck = shuffleSort(createDeck());   // Creating a deck and sorting it
         for(let  i = 0; i < stackSize; i++) {
-            playerHand[i] = newDeck.pop();
+            const newCard = newDeck.pop();
+            playerHand[i] = newCard;
+            setCardCount(prev => ({
+            ...prev,
+            [newCard.value]: prev[newCard.value] + 1,
+            'total': prev['total'] + 1
+            }));
         }
         // for(let  i = 0; i < 40; i++) {
         //     newDeck.pop();
@@ -229,6 +271,16 @@ const HoL = () => { // Higher or Lower
                 </label>
                 <label style={{ color: gameStatus === 'won' ? '#dba100ff' : gameStatus === 'lose' ? '#b80404ff' : 'black'}}>
                     {gameStatus === 'won' ? `${total * betX[stackSize]}` : gameStatus === 'lose' ? `${total}` : gameStatus === 'ongoing' ? `${total}` : ''}
+                </label>
+            </div>
+            <div className="percent">
+                <label>
+                    {stackSize !== 9 && selectedCard !== null && playerHand[selectedCard].suit !== 'hidden' && gameStatus === 'ongoing'
+                    ? (() => {
+                        const [higher, lower] = calculatePercentages(playerHand[selectedCard].value);
+                        return `H ${(higher*100).toFixed(1)}% / L ${(lower*100).toFixed(1)}%`;
+                    })()
+                    : ""}
                 </label>
             </div>
             <div className="gameBoard">
@@ -279,7 +331,7 @@ const HoL = () => { // Higher or Lower
                                 />
                             );
                         }
-                        return null;
+                        return null
                     })}
                 </div>
             </div> 

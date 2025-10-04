@@ -125,3 +125,8 @@
     left: 50%;
     transform: translate(-50%);
 }
+.percent {
+    position: absolute;
+    left: 50%; /*line centers at the middle of the page, will be right of line */
+    transform: translateX(-50%)  /*moves back to true cetner*/
+} 
