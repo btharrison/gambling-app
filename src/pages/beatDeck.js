@@ -39,6 +39,7 @@ const HoL = () => { // Higher or Lower
             ...prev,
             [newCard.value]: prev[newCard.value] + 1
             }));
+            console.log(cardCount);  // Remove this later
             setCurrentCard(newCard)
             let gameContinue = false;
             const newPlayerHand = [...playerHand]
@@ -90,6 +91,7 @@ const HoL = () => { // Higher or Lower
             ...prev,
             [newCard.value]: prev[newCard.value] + 1
             }));
+            console.log(cardCount);         // REMOVE THIS LATER
             setCurrentCard(newCard)
             let gameContinue = false;
             const newPlayerHand = [...playerHand]
@@ -264,7 +266,7 @@ const HoL = () => { // Higher or Lower
                 <div className="cards">
                     {playerHand.map((card, index) => {
                         // Check how many cards should be displayed based on the length of the player's deck
-                        if (stackSize === 3) {
+                        if (stackSize === 3 || stackSize === 9 || stackSize === 6) {
                             // Show the first 3 cards normally
                             return (
                                 <img
@@ -276,31 +278,8 @@ const HoL = () => { // Higher or Lower
                                     tabIndex="0"                // Allows image to be focussed 
                                 />
                             );
-                        } else if (stackSize === 6) {
-                            // Show the first 6 cards
-                            return (
-                                <img
-                                    key={index}
-                                    src={card.image}
-                                    alt={`${card.value} of ${card.suit}`}
-                                    className={`card-image1 ${selectedCard === index ? 'selected-card' : ''}`}
-                                    onClick={() => selectCard(index)}
-                                    tabIndex="0"
-                                />
-                            );
-                        } else if (stackSize === 9) {
-                            // Show the first 9 cards
-                            return (
-                                <img
-                                    key={index}
-                                    src={card.image}
-                                    alt={`${card.value} of ${card.suit}`}
-                                    className={`card-image1 ${selectedCard === index ? 'selected-card' : ''}`}
-                                    onClick={() => selectCard(index)}
-                                    tabIndex="0"
-                                />
-                            );
                         }
+                        return null;
                     })}
                 </div>
             </div> 
