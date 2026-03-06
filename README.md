@@ -2,6 +2,22 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+
+Blackjack
+<img width="1161" height="554" alt="image" src="https://github.com/user-attachments/assets/e7101029-df89-4c06-8ba4-6678d544d3a0" />
+
+Higher or Lower
+<img width="733" height="675" alt="image" src="https://github.com/user-attachments/assets/3eb86d77-057c-4b19-bc69-27c3e3ca620d" />
+
+
+
+
+
+
+
+
+
+
 ## Available Scripts
 
 In the project directory, you can run:
