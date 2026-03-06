@@ -19,7 +19,7 @@ export default function NavBar() {
             </nav>
             <ul className="accountStuff">
                 <li>
-                    <CustomLink to="/account" >Account</CustomLink>
+                    <CustomLink to="/account" ></CustomLink>
                 </li>
             </ul>
         </header>
